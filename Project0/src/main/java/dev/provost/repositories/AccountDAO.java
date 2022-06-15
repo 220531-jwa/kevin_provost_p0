@@ -28,7 +28,7 @@ public class AccountDAO {
 //	Create
 	public Account createAccount(Account a, int clientId) {
 		
-		String sql = "insert into account values (default, ?, ?, ?) returning *";
+		String sql = "insert into accounts values (default, ?, ?, ?) returning *";
 		
 		try (Connection conn = cu.getConnection()) {
 			PreparedStatement ps = conn.prepareStatement(sql);
@@ -120,7 +120,7 @@ public class AccountDAO {
 	
 // Delete
 	
-	public void deleteClient(int clientId, int accountId) {
+	public void deleteAccount(int accountId) {
 		String sql = "delete from accounts where accountid = ?";
 		
 		try (Connection conn = cu.getConnection()) {

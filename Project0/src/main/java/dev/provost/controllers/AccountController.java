@@ -43,10 +43,9 @@ public class AccountController {
 	}
 	
 	public static void deleteAccount(Context ctx) {
-		int clientId = Integer.parseInt(ctx.pathParam("id"));
 		int accountId = Integer.parseInt(ctx.pathParam("accountId"));
 		ctx.status(205);
-		as.deleteAccount(clientId, accountId);
+		as.deleteAccount(accountId);
 	}
 
 }

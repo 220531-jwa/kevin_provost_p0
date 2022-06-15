@@ -36,8 +36,8 @@ public class AccountService {
 		return a;
 	}
 	
-	public void deleteAccount(int clientId, int accountId) {
-		accountDao.deleteClient(clientId, accountId);
+	public void deleteAccount(int accountId) {
+		accountDao.deleteAccount(accountId);
 	}
 
 }

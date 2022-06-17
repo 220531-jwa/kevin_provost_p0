@@ -25,16 +25,20 @@ public class AccountService {
 		
 	}
 	
-	public List<Account> getAccountsByUserId(int userId) throws Exception {
-		//checking if the Account returned by accountDao.getAccountsByUserId(userId) is null 
-		List<Account> a = accountDao.getAccountsByUserId(userId);
+	public List<Account> getAccountsByClientId(int clientId) throws Exception {
+		List<Account> a = accountDao.getAccountsByClientId(clientId);
 		
 		if (a == null) {
-			throw new Exception("Account not found");
+			throw new Exception("Accounts not found");
 		}
-		
+
+
 		return a;
 	}
+	
+	public void updateAccount(Account aChanged, int accountId, int clientId) {
+		accountDao.updateAccount(aChanged, accountId, clientId);
+	}	
 	
 	public void deleteAccount(int accountId) {
 		accountDao.deleteAccount(accountId);

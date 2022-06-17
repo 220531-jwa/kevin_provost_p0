@@ -16,7 +16,7 @@ public class ClientDAO {
 
 	public Client createClient(Client c) {
 		
-		String sql = "insert into users values (default, ?, ?, ?, ?) returning *";
+		String sql = "insert into clients values (default, ?, ?, ?, ?) returning *";
 		
 		try (Connection conn = cu.getConnection()) {
 			PreparedStatement ps = conn.prepareStatement(sql);
@@ -45,23 +45,16 @@ public class ClientDAO {
 	}
 	
 	public List<Client> getAllClients() {
-		// create an empty array list that will hold all the Clients returned from the database
 		List<Client> clients = new ArrayList<>();
 		
-		// this is the sql statement that we'll be executing
-		String sql = "select * from users";
+		String sql = "select * from clients order by clientid";
 		
-		// try with resources - this will auto close any resources we need without a finally block
 		try (Connection conn = cu.getConnection()) {
-			// prepare our statement using the connection object
 			PreparedStatement ps = conn.prepareStatement(sql);
 			
-			// execute our statement and store the result set in a reference variable
 			ResultSet rs = ps.executeQuery();
 			
-			// iterate over the result set, to get the values stored in each column and creating a Java Object with them
 			while(rs.next()) {
-				// use the getXXX() methods to retrieve the values stored in each column of this row of the result set
 				int clientId = rs.getInt("clientid");
 				String firstName = rs.getString("first_name");
 				String lastName = rs.getString("last_name");
@@ -82,7 +75,7 @@ public class ClientDAO {
 	
 	public Client getClientById(int clientId) {
 		
-		String sql = "select * from users where clientid = ?"; // this question mark symbolizes and IN parameter for our statement
+		String sql = "select * from clients where clientid = ?"; // this question mark symbolizes and IN parameter for our statement
 		
 		try (Connection conn = cu.getConnection()) {
 			
@@ -91,7 +84,6 @@ public class ClientDAO {
 		
 			ResultSet rs = ps.executeQuery();
 			
-			// if the result set has a row/record
 			if (rs.next()) {
 				return new Client(
 						rs.getInt("clientId"),
@@ -106,7 +98,7 @@ public class ClientDAO {
 			e.printStackTrace();
 		}
 		
-		return null; // Optional Class -> can help avoid NullPointer Exceptions (if any one is curious)
+		return null;
 	}
 	
 	public Client getClientByUsername(String username) {
@@ -116,7 +108,7 @@ public class ClientDAO {
 	
 	public void updateClient(Client cChanged, int clientId) {
 		
-		String sql = "update users set first_name = ?, last_name = ?, username = ?, pass = ? where clientid = ?";
+		String sql = "update clients set first_name = ?, last_name = ?, username = ?, pass = ? where clientid = ?";
 		
 		try (Connection conn = cu.getConnection()) {
 			PreparedStatement ps = conn.prepareStatement(sql);
@@ -136,7 +128,7 @@ public class ClientDAO {
 	}
 	
 	public void deleteClient(int clientId) {
-		String sql = "delete from users where clientid = ?";
+		String sql = "delete from clients where clientid = ?";
 		
 		try (Connection conn = cu.getConnection()) {
 			PreparedStatement ps = conn.prepareStatement(sql);
@@ -149,7 +141,7 @@ public class ClientDAO {
 
 	public Client updateClientPassword(int clientId, String password) {
 		
-		String sql = "update users set pass = ? where clientid = ? returning *";
+		String sql = "update clients set pass = ? where clientid = ? returning *";
 		
 		try (Connection conn = cu.getConnection()) {
 			PreparedStatement ps = conn.prepareStatement(sql);

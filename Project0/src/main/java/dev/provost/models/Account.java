@@ -5,7 +5,7 @@ public class Account {
 	private int accountId;
 	private double balance;
 	private boolean isChecking;
-	private int userId;
+	private int clientId;
 
 
 
@@ -13,19 +13,19 @@ public class Account {
 		super();
 	}
 	
-	public Account(int accountId, double balance, boolean isChecking, int userid) {
+	public Account(int accountId, double balance, boolean isChecking, int clientId) {
 		this.accountId = accountId;
 		this.balance = balance;
 		this.isChecking = isChecking;
-		this.userId = userid;
+		this.clientId = clientId;
 	}
 
-	public int getUserId() {
-		return userId;
+	public int getClientId() {
+		return clientId;
 	}
 
-	public void setUserId(int userid) {
-		this.userId = userid;
+	public void setClientId(int clientId) {
+		this.clientId = clientId;
 	}
 
 	public int getId() {
@@ -54,7 +54,7 @@ public class Account {
 
 	@Override
 	public String toString() {
-		return "Account [accountId=" + accountId + ", balance=" + balance + ", isChecking=" + isChecking + ", userid=" + userId + "]";
+		return "Account [accountId=" + accountId + ", balance=" + balance + ", isChecking=" + isChecking + ", clientId=" + clientId + "]";
 	}
 	
 	

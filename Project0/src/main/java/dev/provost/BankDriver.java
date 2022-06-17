@@ -10,15 +10,7 @@ public class BankDriver {
 		
 		Javalin app = Javalin.create();
 		
-		app.start(8081);
-		
-		// Javalin provides us with a Context Class (ctx) that represents information 
-		// about BOTH the Http Request AND Http Response Objects
-		// we'll be using methods from the context class to handle our incoming http requests
-		// and to send our http responses
-		
-		// lambdas - introduced functional programming to Java
-		// (parameter) -> {// implementation}
+		app.start(8080);
 		
 		app.routes(() -> {
 			path("/clients", () -> {
@@ -30,12 +22,13 @@ public class BankDriver {
 					put(ClientController::updateClient); 
 					patch(ClientController::updatePassword);
 						path("/accounts", () -> {
-							get(AccountController::getAccountsByUserId);
+							get(AccountController::getAccountsByClientId);
  							post(AccountController::createAccount);
  							path("/{accountId}", () -> {
  								get(AccountController::getAccountbyAccountId);
 								delete(AccountController::deleteAccount);
-// 								put(AccountController::updateBalance);
+								put(AccountController::updateAccount);
+// 								patch(AccountController::changeBalance);
  							});
 						});
  
@@ -43,7 +36,9 @@ public class BankDriver {
 				});
 		});
 		
-
+		app.error(404, ctx -> {
+			ctx.result("Not Found");
+		});
 		
 		app.get("/", ctx -> {
 			ctx.status(200);

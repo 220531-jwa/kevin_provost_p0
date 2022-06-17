@@ -8,6 +8,11 @@ import dev.provost.repositories.ClientDAO;
 public class ClientService {
 	
 	private static ClientDAO clientDao = new ClientDAO();
+//	private static ClientDAO clientDao;
+//	
+//	public ClientService(ClientDAO clientDao) {
+//		this.clientDao = clientDao;
+//	}
 	
 	
 	//login
@@ -42,19 +47,25 @@ public class ClientService {
 		Client c = clientDao.getClientById(clientId);
 		
 		if (c == null) {
-			throw new Exception("Client not found");
+			
+			throw new Exception("Client not found.");
 		}
 		
 		return c;
 	}
-
+	
+	public void updateClient(Client cChanged, int clientId) throws Exception {
+		
+		if (cChanged.getId() == clientId) {
+		clientDao.updateClient(cChanged, clientId);
+		} else throw new Exception("Client not found!");
+	}
+	
 	public void deleteClient(int clientId) {
 		clientDao.deleteClient(clientId);
 	}
 	
-	public void updateClient(Client cChanged, int clientId) {
-		clientDao.updateClient(cChanged, clientId);
-	}
+
 
 
 	

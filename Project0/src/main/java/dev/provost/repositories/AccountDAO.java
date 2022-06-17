@@ -84,8 +84,8 @@ public class AccountDAO {
 		return null;
 	}
 	
-	//List account balances by User ID
-	public List<Account> getAccountsByUserId(int userId) {
+	//List account balances by Client ID
+	public List<Account> getAccountsByClientId(int clientId) {
 		
 		List<Account> accounts = new ArrayList<>();
 				
@@ -94,7 +94,7 @@ public class AccountDAO {
 		try (Connection conn = cu.getConnection()) {
 			
 			PreparedStatement ps = conn.prepareStatement(sql);
-			ps.setInt(1, userId);
+			ps.setInt(1, clientId);
 			
 			ResultSet rs = ps.executeQuery();
 			
@@ -103,7 +103,7 @@ public class AccountDAO {
 				double balance = rs.getDouble("balance");
 				boolean isChecking = rs.getBoolean("ischecking");
 				
-				Account a = new Account(accountId, balance, isChecking, userId);
+				Account a = new Account(accountId, balance, isChecking, clientId);
 				
 				accounts.add(a);
 						
@@ -117,6 +117,29 @@ public class AccountDAO {
 		return null;
 		
 	}
+
+	
+// Update	
+	
+	public void updateAccount(Account aChanged, int accountId, int clientId) {
+		
+		String sql = "update accounts set balance = ?, ischecking = ?, clientid = ? where accountid = ?";
+		
+		try (Connection conn = cu.getConnection()) {
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setDouble(1, aChanged.getBalance());
+			ps.setBoolean(2, aChanged.getIsChecking());
+			ps.setInt(3, clientId);
+			ps.setInt(4, accountId);
+			
+			ps.executeUpdate();
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}	
 	
 // Delete
 	

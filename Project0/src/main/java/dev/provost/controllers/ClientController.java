@@ -9,6 +9,11 @@ import io.javalin.http.Context;
 public class ClientController {
 	
 	private static ClientService cs = new ClientService();
+//	private static ClientService cs;
+//	
+//	public ClientController(ClientService cs) {
+//		this.cs = cs;
+//	}
 
 	public static void getAllClients(Context ctx) {
 		ctx.status(200);
@@ -31,24 +36,35 @@ public class ClientController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		if (c != null) {
 		ctx.status(200);
 		ctx.json(c);
+		} else {
+			ctx.status(404);
+		}
 	}
 	
 	public static void deleteClient(Context ctx) {
 		int clientId = Integer.parseInt(ctx.pathParam("id"));
-		System.out.println("deleteClient ID = " + clientId);
-		ctx.status(205);
-		cs.deleteClient(clientId);
+		
+		try {
+			cs.deleteClient(clientId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
 	}
 	
 	public static void updateClient(Context ctx) {
 		int clientId = Integer.parseInt(ctx.pathParam("id"));	
 		Client cChanged = ctx.bodyAsClass(Client.class); //unmarshalling
-//		System.out.println("updateClient = " + cChanged);
-		ctx.status(200);
-		cs.updateClient(cChanged, clientId);
+		try {
+			cs.updateClient(cChanged, clientId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
+		
 	
 	public static void updatePassword(Context ctx) {
 		int clientId = Integer.parseInt(ctx.pathParam("id"));

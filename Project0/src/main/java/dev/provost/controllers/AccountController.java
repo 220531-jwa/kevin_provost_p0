@@ -14,32 +14,55 @@ public class AccountController {
 		int clientId = Integer.parseInt(ctx.pathParam("id"));
 		Account accountFromRequestBody = ctx.bodyAsClass(Account.class);
 		as.createAccount(accountFromRequestBody, clientId);
+		ctx.status(201);
 	}
 	
-	public static void getAccountsByUserId(Context ctx) {
-		int userId = Integer.parseInt(ctx.pathParam("id"));
+	public static void getAccountsByClientId(Context ctx) {
+		int clientId = Integer.parseInt(ctx.pathParam("id"));
 		List<Account> a = null;
 		try {
-			a = as.getAccountsByUserId(userId);
+			a = as.getAccountsByClientId(clientId);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		ctx.status(200);
-		ctx.json(a);
+		
+		if (a == null) {
+			ctx.status(404);
+			} else {
+				ctx.status(200);
+				ctx.json(a);
+			}
 	}
 	
 	public static void getAccountbyAccountId(Context ctx) {
-		int userId = Integer.parseInt(ctx.pathParam("id"));
+		int clientId = Integer.parseInt(ctx.pathParam("id"));
 		int accountId = Integer.parseInt(ctx.pathParam("accountId"));
 		Account a = null;
 		try {
-			a = as.getAccountbyAccountId(accountId, userId);
+			a = as.getAccountbyAccountId(accountId, clientId);
 		} catch (Exception e) {
-			ctx.status(500);
 			e.printStackTrace();
 		}
+		
+		if (a != null) {
+			ctx.status(200);
+			ctx.json(a);
+			} else {
+				ctx.status(404);
+			}
+	}
+	
+	public static void updateAccount(Context ctx) {
+		int accountId = Integer.parseInt(ctx.pathParam("accountId"));
+		int clientId = Integer.parseInt(ctx.pathParam("id"));
+		Account aChanged = ctx.bodyAsClass(Account.class);
+		try {
+			as.updateAccount(aChanged, accountId, clientId);
+		} catch (Exception e) {
+			ctx.status(404);
+		}
 		ctx.status(200);
-		ctx.json(a);
+
 	}
 	
 	public static void deleteAccount(Context ctx) {
